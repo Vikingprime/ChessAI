@@ -27,7 +27,7 @@ private Board(){
 	}
 	promote[0] = new Queen(null);
 	promote[1] = new Knight(null);
-	promote[2] = new Rook(null);
+	promote[2] = new Rook(null,true);
 	promote[3] = new Bishop(null);
 }
 public static Board instance() {
@@ -336,7 +336,7 @@ public void promote(Piece p,ArrayList<Piece> setname,Scanner console){
 			finish = new Bishop(p.getSquare());
 		}
 		else if(input.toUpperCase().startsWith("R")){
-			finish = new Rook(p.getSquare());
+			finish = new Rook(p.getSquare(),true);
 		}
 		else if(input.toUpperCase().startsWith("K")){
 			finish = new Knight(p.getSquare());

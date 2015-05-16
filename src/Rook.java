@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 
 public class Rook extends Piece {
-	boolean hasmoved = false;
-	public Rook(Square sq) {
+	boolean hasmoved;
+	public Rook(Square sq,boolean moved) {
 		super(sq);
+		hasmoved = moved;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -70,7 +71,7 @@ public class Rook extends Piece {
 	@Override
 	public Piece clone() {
 		// TODO Auto-generated method stub
-		return new Rook(super.getSquare());
+		return new Rook(super.getSquare(),hasmoved);
 	}
 	public int value() {
 		// TODO Auto-generated method stub
