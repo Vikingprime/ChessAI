@@ -18,7 +18,7 @@ public class Test {
 		mBoard.addPiece(new Knight(mBoard.getSquare(2, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Bishop(mBoard.getSquare(3, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Queen(mBoard.getSquare(4, 1)),mBoard.getSetA());
-		mBoard.addAKing(mBoard.getSquare(5,1));
+		mBoard.addAKing(mBoard.getSquare(5,1),false);
 		mBoard.addPiece(new Bishop(mBoard.getSquare(6, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Knight(mBoard.getSquare(7, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Rook(mBoard.getSquare(8, 1)),mBoard.getSetA());
@@ -35,7 +35,7 @@ public class Test {
 		mBoard.addPiece(new Knight(mBoard.getSquare(2, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Bishop(mBoard.getSquare(3, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Queen(mBoard.getSquare(4, 8)),mBoard.getSetB());
-		mBoard.addBKing(mBoard.getSquare(5,8));
+		mBoard.addBKing(mBoard.getSquare(5,8),false);
 		mBoard.addPiece(new Bishop(mBoard.getSquare(6, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Knight(mBoard.getSquare(7, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Rook(mBoard.getSquare(8, 8)),mBoard.getSetB());

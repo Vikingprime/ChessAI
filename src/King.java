@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 
 public class King extends Piece{
-	boolean hasmoved = false;
-	public King(Square sq) {
+	boolean hasmoved;
+	public King(Square sq,boolean move) {
 		super(sq);
+		hasmoved = move;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -66,7 +67,7 @@ public class King extends Piece{
 	@Override
 	public Piece clone() {
 		// TODO Auto-generated method stub
-		return new King(super.getSquare());
+		return new King(super.getSquare(),hasmoved);
 	}
 
 	@Override

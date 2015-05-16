@@ -260,12 +260,12 @@ public double bestmoveB(int counter){
 		}
 	return maxval;
 }
-public void addAKing(Square sq){
-	AKing = new King(sq);
+public void addAKing(Square sq,boolean move){
+	AKing = new King(sq,move);
 	mBoard.addPiece(AKing,getSetA());
 }
-public void addBKing(Square sq){
-	BKing = new King(sq);
+public void addBKing(Square sq,boolean move){
+	BKing = new King(sq,move);
 	mBoard.addPiece(BKing,getSetB());
 }
 
