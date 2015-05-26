@@ -131,7 +131,7 @@ public ArrayList getSetB(){
 }
 
 public double bestmoveA(int counter, double max){
-	if(counter == 3){
+	if(counter == 4){
 		return ((double)(getvalueA()-getvalueB())+(distancediff()/100));
 	}
 	Piece p1=null;

@@ -41,10 +41,10 @@ public class Test {
 		mBoard.addBKing(mBoard.getSquare(5,8),false);
 		/* Stuff to do:
 		 * 1. Swing GUI
-		 * 2. Fix instance var changing
-		 * 3. MAYBE make sure Bishop doesn't hop over pieces
-		 * 4. Alpha Beta pruning, speed up algorithm
-		 * 5. Better checkmate/check algorithm
+		 * 2. MAYBE make sure Bishop doesn't hop over pieces
+		 * 3. Alpha Beta pruning, speed up algorithm
+		 * 4. Better checkmate/check algorithm
+		 * 5. Use parallelism to make it go even faster
 		 *
 		 */
 
