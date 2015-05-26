@@ -73,9 +73,9 @@ public void movePiece(Piece p1,Square sq){
 //	System.out.println("I'm setting square: "+sq);
 }
 public void usermove(Piece p1,Square sq){
-	movePiece(p1,sq);
 	boolean king = p1.isKing();
 	boolean diff = Math.abs(p1.getX()-sq.getx())>1;
+	movePiece(p1,sq);
 	if(king && diff){
 		Square cur = p1.getSquare();
 		if(sq.getx()==7){
