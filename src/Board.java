@@ -131,7 +131,7 @@ public ArrayList getSetB(){
 }
 
 public double bestmoveA(int counter, double max){
-	if(counter == 4){
+	if(counter == 3){
 		return ((double)(getvalueA()-getvalueB())+(distancediff()/100));
 	}
 	Piece p1=null;
@@ -227,11 +227,8 @@ public double bestmoveA(int counter, double max){
 				rook.apply();
 			}
 			if(maxval>=max){
-				break;
+				return maxval;
 			}
-		}
-		if(maxval>=max){
-			break;
 		}
 		}
 	if(counter == 1){
@@ -327,12 +324,9 @@ public double bestmoveB(int counter, double max){
 				rook.apply();
 			}
 			if(maxval<=max){
-				break;
+				return maxval;
 			}
 			
-		}
-		if(maxval<=max){
-			break;
 		}
 		}
 	return maxval;
