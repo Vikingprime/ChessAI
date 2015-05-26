@@ -50,7 +50,7 @@ public class Test {
 
 	while(true){
 		mBoard.testprint();
-		Board.instance().bestmoveA(0);
+		Board.instance().bestmoveA(0,500);
 		System.out.println();
 	//	Board.instance().testprint();
 		Scanner console = new Scanner(System.in);

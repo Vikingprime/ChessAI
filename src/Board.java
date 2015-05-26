@@ -130,8 +130,8 @@ public ArrayList getSetB(){
 	return setB;
 }
 
-public double bestmoveA(int counter){
-	if(counter == 2){
+public double bestmoveA(int counter, double max){
+	if(counter == 3){
 		return ((double)(getvalueA()-getvalueB())+(distancediff()/100));
 	}
 	Piece p1=null;
@@ -194,7 +194,7 @@ public double bestmoveA(int counter){
 					p = q.clone();
 					p.setSquare(s);
 					s.addPiece(p);
-					val = bestmoveB(counter);
+					val = bestmoveB(counter,maxval);
 					if(val > maxval){
 						maxval = val;
 						p1 = p;
@@ -204,7 +204,7 @@ public double bestmoveA(int counter){
 			}
 			else {
 			    movePiece(p,s);
-				val = bestmoveB(counter);
+				val = bestmoveB(counter,maxval);
 				if(val > maxval){
 					maxval = val;
 					p1 = p;
@@ -226,6 +226,12 @@ public double bestmoveA(int counter){
 				castle2.apply();
 				rook.apply();
 			}
+			if(maxval>=max){
+				break;
+			}
+		}
+		if(maxval>=max){
+			break;
 		}
 		}
 	if(counter == 1){
@@ -234,7 +240,7 @@ public double bestmoveA(int counter){
 	}
 	return maxval;
 }
-public double bestmoveB(int counter){
+public double bestmoveB(int counter, double max){
 	double maxval = 500;
 	ArrayList<Piece> tmpo = (ArrayList) setB.clone();
 	for(Piece p:tmpo){
@@ -292,7 +298,7 @@ public double bestmoveB(int counter){
 					p = q.clone();
 					p.setSquare(s);
 					s.addPiece(p);
-					val = bestmoveA(counter);
+					val = bestmoveA(counter,maxval);
 					if(val > maxval){
 						maxval = val;
 					}
@@ -300,10 +306,10 @@ public double bestmoveB(int counter){
 			}
 			else {
 			    movePiece(p,s);
-				val = bestmoveA(counter);
-			}
-			if( val < maxval){
-				maxval = val;
+				val = bestmoveA(counter,maxval);
+				if( val < maxval){
+					maxval = val;
+				}
 			}
 			second.apply();
 			piece.apply();
@@ -320,7 +326,13 @@ public double bestmoveB(int counter){
 				castle2.apply();
 				rook.apply();
 			}
+			if(maxval<=max){
+				break;
+			}
 			
+		}
+		if(maxval<=max){
+			break;
 		}
 		}
 	return maxval;
