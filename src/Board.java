@@ -1,23 +1,18 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
-
-//Maybe to make it faster, readd piece instead of Memento for Board?
-public class Board {
+public class Board  {
 volatile static Board mBoard = null;
 //setA starts at line 1
 private ArrayList<Piece> setA = new ArrayList<Piece>();
-int Ascore = 8;
 King AKing;
 //setB starts at line 8
 private ArrayList<Piece> setB = new ArrayList<Piece>();
-int Bscore = 8;
 King BKing;
 private Square[][] mSquares = new Square[8][8];
 private Piece[] promote = new Piece[4];
-private Square.Memento castle = null;
-private Square.Memento castle2 = null;
-private Piece.Memento rook = null;
 
 private Board(){
 	for(int x = 0;x<8;x++){
@@ -53,22 +48,6 @@ public void movePiece(Piece p1,Square sq){
 	Square current = p1.getSquare();
 	Square left = current.moveLeft();
 	Square right = current.moveRight();
-	if(p1.isKing() && Math.abs(p1.getX()-sq.getx())>1){
-		Square cur = p1.getSquare();
-		if(sq.getx()==7){
-			System.out.println("THIS IS KING'S LOCATION "+p1.getY());
-			castle = getSquare(8,p1.getY()).update();
-			castle2 = getSquare(6,p1.getY()).update();
-			rook = getSquare(8,p1.getY()).getPiece().update();
-			movePiece(getSquare(8,p1.getY()).getPiece(),getSquare(6,p1.getY()));
-		}
-		else if(sq.getx()==3){
-			castle = getSquare(1,p1.getY()).update();
-			castle2 = getSquare(4,p1.getY()).update();
-			rook = getSquare(1,p1.getY()).getPiece().update();
-			movePiece(getSquare(1,p1.getY()).getPiece(),getSquare(4,p1.getY()));
-		}
-	}
 	if(p1.isPawn() && sq.getx()==current.getx()+1 && (sq.gety() == current.gety()+1||sq.gety()==current.gety()-1)
 			&& !sq.hasPiece() ){
 		setA.remove(right.getPiece());
@@ -92,6 +71,21 @@ public void movePiece(Piece p1,Square sq){
 //	mBoard.getPiece(p1).setSquare(sq);
 	p1.setSquare(sq);
 //	System.out.println("I'm setting square: "+sq);
+}
+public void usermove(Piece p1,Square sq){
+	movePiece(p1,sq);
+	boolean king = p1.isKing();
+	boolean diff = Math.abs(p1.getX()-sq.getx())>1;
+	if(king && diff){
+		Square cur = p1.getSquare();
+		if(sq.getx()==7){
+			movePiece(getSquare(8,p1.getY()).getPiece(),getSquare(6,p1.getY()));
+		}
+		else if(sq.getx()==3){
+			movePiece(getSquare(1,p1.getY()).getPiece(),getSquare(4,p1.getY()));
+		}
+	}
+	
 }
 public boolean canMove(Square sq,ArrayList setname){
 	return !(sq.hasPiece() && setname.contains(sq.getPiece()));
@@ -138,7 +132,6 @@ public ArrayList getSetB(){
 
 public double bestmoveA(int counter){
 	if(counter == 2){
-	//	System.out.println("Value is: "+(double)(getvalueA()-getvalueB())+(distancediff()/100));
 		return ((double)(getvalueA()-getvalueB())+(distancediff()/100));
 	}
 	Piece p1=null;
@@ -158,11 +151,39 @@ public double bestmoveA(int counter){
 				AKing.setmoved();
 			}
 			boolean diff = Math.abs(p.getX()-s.getx())>1;
+			Square left = p.getSquare().moveLeft();
+			Square.Memento lefty = null;
+			if(left!=null){
+			lefty = left.update();
+			}
+			Square right = p.getSquare().moveRight();
+			Square.Memento righty = null;
+			if(right!=null){
+				righty = right.update();
+			}
 			Square.Memento sql = p.getSquare().update();
 			Square.Memento sqq = s.update();
 			Piece.Memento piece = p.update();
+			Square.Memento castle = null;
+			Square.Memento castle2 = null;
+			Piece.Memento rook = null;
 			Memento first = this.update();
 			double val = 0;
+			if(king && diff){
+				Square cur = p.getSquare();
+				if(s.getx()==7){
+					castle = getSquare(8,p.getY()).update();
+					castle2 = getSquare(6,p.getY()).update();
+					rook = getSquare(8,p.getY()).getPiece().update();
+					movePiece(getSquare(8,p.getY()).getPiece(),getSquare(6,p.getY()));
+				}
+				else if(s.getx()==3){
+					castle = getSquare(1,p.getY()).update();
+					castle2 = getSquare(4,p.getY()).update();
+					rook = getSquare(1,p.getY()).getPiece().update();
+					movePiece(getSquare(1,p.getY()).getPiece(),getSquare(4,p.getY()));
+				}
+			}
 			if(p.isPawn() && s.gety()==p.getSquare().gety()+2){
 				p.setPass();
 			}
@@ -174,28 +195,37 @@ public double bestmoveA(int counter){
 					p.setSquare(s);
 					s.addPiece(p);
 					val = bestmoveB(counter);
+					if(val > maxval){
+						maxval = val;
+						p1 = p;
+						s1 = s;
+					}
 				}
 			}
 			else {
 			    movePiece(p,s);
 				val = bestmoveB(counter);
-			}
-			if(val > maxval){
-				maxval = val;
-				p1 = p;
-				s1 = s;
+				if(val > maxval){
+					maxval = val;
+					p1 = p;
+					s1 = s;
+				}
 			}
 			first.apply();
 			piece.apply();
 			sql.apply();
 			sqq.apply();
+			if(lefty!=null){
+				lefty.apply();
+				}
+			if(righty!=null){
+				righty.apply();
+			}
 			if(king && diff){
 				castle.apply();
 				castle2.apply();
 				rook.apply();
 			}
-			//PROBABLY WON'T WORK FOR DOUBLE CASTLES B/C OF VARIABLE
-			
 		}
 		}
 	if(counter == 1){
@@ -219,23 +249,53 @@ public double bestmoveB(int counter){
 				BKing.setmoved();
 			}
 			boolean diff = Math.abs(p.getX()-s.getx())>1;
+			Square left = p.getSquare().moveLeft();
+			Square.Memento lefty = null;
+			if(left!=null){
+			lefty = left.update();
+			}
+			Square right = p.getSquare().moveRight();
+			Square.Memento righty = null;
+			if(right!=null){
+				righty = right.update();
+			}
 			Square.Memento sqq = s.update();
 			Square.Memento sql = p.getSquare().update();
 			Piece.Memento piece = p.update();
 			Memento second = this.update();
+			Square.Memento castle = null;
+			Square.Memento castle2 = null;
+			Piece.Memento rook = null;
 			double val = 0;
+			if(king && diff){
+				Square cur = p.getSquare();
+				if(s.getx()==7){
+					castle = getSquare(8,p.getY()).update();
+					castle2 = getSquare(6,p.getY()).update();
+					rook = getSquare(8,p.getY()).getPiece().update();
+					movePiece(getSquare(8,p.getY()).getPiece(),getSquare(6,p.getY()));
+				}
+				else if(s.getx()==3){
+					castle = getSquare(1,p.getY()).update();
+					castle2 = getSquare(4,p.getY()).update();
+					rook = getSquare(1,p.getY()).getPiece().update();
+					movePiece(getSquare(1,p.getY()).getPiece(),getSquare(4,p.getY()));
+				}
+			}
 			if(p.isPawn() && s.gety()==p.getSquare().gety()-2){
 				p.setPass();
 			}
 			if(p.isPawn() && s.gety()==1){
 				for(Piece q:promote){
-					System.out.println("Promote to "+q);
 					movePiece(p,s);
 					s.removePiece();
 					p = q.clone();
 					p.setSquare(s);
 					s.addPiece(p);
 					val = bestmoveA(counter);
+					if(val > maxval){
+						maxval = val;
+					}
 				}
 			}
 			else {
@@ -249,12 +309,17 @@ public double bestmoveB(int counter){
 			piece.apply();
 			sql.apply();
 			sqq.apply();
+			if(lefty!=null){
+			lefty.apply();
+			}
+			if(righty!=null){
+			righty.apply();
+			}
 			if(king && diff){
 				castle.apply();
 				castle2.apply();
 				rook.apply();
 			}
-			//THIS MAY NOT WORK FOR DOUBLE CASTLES ON BOTH SIDES
 			
 		}
 		}
@@ -349,5 +414,6 @@ public void promote(Piece p,ArrayList<Piece> setname,Scanner console){
 		}
 	}
 }
+
 
 }

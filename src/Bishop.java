@@ -45,6 +45,9 @@ public class Bishop extends Piece {
 		current = super.getSquare();
 		while(current.getx()>1 && current.gety()<8){
 			current = current.moveLeft().moveUp();
+			if(current.toString().toUpperCase().equals("A6") && Board.instance().getSquare(5,2).hasPiece()){
+				System.out.println("How'd it get here?");
+			}
 			if(Board.instance().canMove(current,setname)){
 				moves.add(current);
 			}

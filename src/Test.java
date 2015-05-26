@@ -8,16 +8,16 @@ public class Test {
 		Board mBoard = Board.instance();
 		mBoard.addPiece(new Pawn(mBoard.getSquare(1, 2),true),mBoard.getSetA());
 		mBoard.addPiece(new Pawn(mBoard.getSquare(2, 2),true),mBoard.getSetA());
-		mBoard.addPiece(new Pawn(mBoard.getSquare(3, 2),true),mBoard.getSetA());
+		mBoard.addPiece(new Pawn(mBoard.getSquare(3, 2),true),mBoard.getSetA()); 
 		mBoard.addPiece(new Pawn(mBoard.getSquare(4, 2),true),mBoard.getSetA());
-		mBoard.addPiece(new Pawn(mBoard.getSquare(5, 2),true),mBoard.getSetA());
+	mBoard.addPiece(new Pawn(mBoard.getSquare(5, 2),true),mBoard.getSetA());
 		mBoard.addPiece(new Pawn(mBoard.getSquare(6, 2),true),mBoard.getSetA());
 		mBoard.addPiece(new Pawn(mBoard.getSquare(7, 2),true),mBoard.getSetA());
 		mBoard.addPiece(new Pawn(mBoard.getSquare(8, 2),true),mBoard.getSetA());
 		mBoard.addPiece(new Rook(mBoard.getSquare(1, 1),false),mBoard.getSetA());
 		mBoard.addPiece(new Knight(mBoard.getSquare(2, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Bishop(mBoard.getSquare(3, 1)),mBoard.getSetA());
-		mBoard.addPiece(new Queen(mBoard.getSquare(4, 1)),mBoard.getSetA());
+		mBoard.addPiece(new Queen(mBoard.getSquare(4, 1)),mBoard.getSetA()); 
 		mBoard.addAKing(mBoard.getSquare(5,1),false);
 		mBoard.addPiece(new Bishop(mBoard.getSquare(6, 1)),mBoard.getSetA());
 		mBoard.addPiece(new Knight(mBoard.getSquare(7, 1)),mBoard.getSetA());
@@ -35,10 +35,19 @@ public class Test {
 		mBoard.addPiece(new Knight(mBoard.getSquare(2, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Bishop(mBoard.getSquare(3, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Queen(mBoard.getSquare(4, 8)),mBoard.getSetB());
-		mBoard.addBKing(mBoard.getSquare(5,8),false);
 		mBoard.addPiece(new Bishop(mBoard.getSquare(6, 8)),mBoard.getSetB());
 		mBoard.addPiece(new Knight(mBoard.getSquare(7, 8)),mBoard.getSetB());
-		mBoard.addPiece(new Rook(mBoard.getSquare(8, 8),false),mBoard.getSetB());
+		mBoard.addPiece(new Rook(mBoard.getSquare(8, 8),false),mBoard.getSetB()); 
+		mBoard.addBKing(mBoard.getSquare(5,8),false);
+		/* Stuff to do:
+		 * 1. Swing GUI
+		 * 2. Fix instance var changing
+		 * 3. MAYBE make sure Bishop doesn't hop over pieces
+		 * 4. Alpha Beta pruning, speed up algorithm
+		 * 5. Better checkmate/check algorithm
+		 *
+		 */
+
 	while(true){
 		mBoard.testprint();
 		Board.instance().bestmoveA(0);
@@ -67,7 +76,7 @@ public class Test {
 		end = mBoard.getSquare(x,y);
 		}
 
-		mBoard.movePiece(pawn,end);
+		mBoard.usermove(pawn,end);
 		mBoard.promote(pawn,Board.instance().getSetB(),console);
 		System.out.println("You moved "+pawn+" to "+end);
 	
